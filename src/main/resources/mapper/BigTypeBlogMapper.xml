@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.bigwel.dao.IBigTypeBlogDao">
+
+	<resultMap type="BigTypeBlog" id="bigTypeBlogMap">
+		<id column="bbid" jdbcType="INTEGER" property="id" />
+		<result column="bname" jdbcType="VARCHAR" property="name" />
+		<result column="bdepict" jdbcType="VARCHAR" property="depict" />
+		<collection property="smallTypeBlogs"
+			resultMap="cn.bigwel.dao.ISmallTypeBlogDao.smallTypeBlogMap"></collection>
+	</resultMap>
+
+	<select id="getAllBigTypeBlog" resultMap="bigTypeBlogMap">
+		select b.id
+		bbid,b.`name` bname,b.depict bdepict, s.id,s.bid,s.`name`,s.depict from
+		big_type_blog b ,small_type_blog s
+	</select>
+	
+	<select id="getBigTypeBlogById" resultMap="bigTypeBlogMap" parameterType="int">
+		select b.id
+		bbid,b.`name` bname,b.depict bdepict, s.id,s.bid,s.`name`,s.depict from
+		big_type_blog b ,small_type_blog s where b.id = #{id}
+	</select>
+
+
+</mapper>

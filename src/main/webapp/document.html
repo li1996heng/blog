@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>记录</title><!-- 
+<style type="text/css" rel="stylesheet">
+/* *{font-size:15px;} */
+li{word-break:break-all;word-wrap:break-word;}
+.hard{width:1800px;padding-bottom:40px;border:0px;border-bottom:3px dashed #ccc;}
+.type{font-size:30px;font-weight:bold;}
+dl{list-style:none;width:400px;float:left;margin-left:50px;border-right:2px dashed #ccc;padding-right:10px;}
+dt{font-size:20px;}
+.red{color:red;}
+.keyword{color:#389BFB;}
+.finished{text-decoration:line-through;}
+sub{font-size:10px;color:#FFF;background:#389BFB;}
+.quxiao{background:#ccc}
+
+
+</style> -->
+</head>
+
+<body>
+	<h1 align="center">Blog开发文档</h1>
+<dl class="hard">
+	<dt><span class="type">项目目的及整体构思</span></dt>
+    	<ol>
+			<li>熟练掌握SSM框架</li>
+            <li>了解LayUI前台框架</li>
+            <li>体验项目开发从无到有的过程，即从前台页面到数据库设计到后台逻辑代码实现，线下到线上的运营</li>
+            <li>通过Maven管理和构建项目，开发工具为Eclipse， 数据库使用MySQL5.7.20，<br /> 服务器为Tomcat7.0.68 &nbsp;&nbsp;&nbsp;JDK 1.8</li>
+            <li>线上使用腾讯云服务器1G 2核 项目运行环境与本地开发环境保持一致</li>
+            <li>预计开发周期为一个月   由于之前并没有了解过SSM框架 只能边学边做 故开发周期较长</li>
+			
+			
+		</ol>
+</dl>
+
+<dl>
+	<dt><span class="type">第一周：</span></dt>
+    <dd>
+    	<dt>2018.4.1:</dt>
+    	<ol>
+    		<li>扒GitHub开源项目<a href="http://blog.liuyanzhao.com/" target="_blank">网站</a>静态资源 </sub></li>
+            <li>手写SQL语句，业务不多，故最初表设计较为简单 以后再慢慢添加功能 附数据库ER图：</li>
+            <br />
+            <img src="img/document/createTable.png"/>
+			
+        </ol>
+    </dd>
+    <dd>
+    	<dt>2018.4.2:</dt>
+    	<ol>
+    		<li>
+    			2018.4.2  0:54  今天是极其漫长的一天，也是过得最快的一天 早上9点多打开电脑一直到现在没停过<br />
+    			开始这个项目之前我觉得有了SSH框架的基础   转SSM应该不难 但是问题不断出现  相比于SSH框架，SSM代码量<br />
+    			少  但是配置文件多， 提醒各位编程人员 不要过分依赖搜索引擎寻找资源，尽可能的通过官方文档获取信息<br />
+    			虽然大部分帮助文档都是英文的，但是信息更新及时。而CSDN或者是其他平台的资源 有很大的时效性 <br />
+    			并且且别人开发工具，版本 或者是项目构建工具与你本地有很大<br />
+    			区别	这会造成同一行代码在他那可行但在你这却跑不起来，而这种错误我本人是很厌烦的 
+    		</li>
+			
+        </ol>
+    </dd>
+    <dd>
+    	<dt>2018.4.5:</dt>
+    	<ol>
+    		<li>
+    			2018.4.5  2:25  昨天学了MyBatis一对多  多对一的ORM  提容易犯错误的几个点
+    		</li>
+    			<li style="list-style: none;">
+    				(a).前台用c:forEach迭代标签处理后台传过来的List集合时，若需要在迭代标签中继续迭代<br />
+    				   	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;那么当你使用EL表达式获取对象属性   那个属性一定得是List对象 才可以作为<c:forEach>的items
+    					&nbsp;否则会报下图所示异常：
+    				<img src="img/document/exception/exception1.jpg"/>
+    				<br/>
+    				<br/>
+    				<br/>
+    				(b).如果你需要在某个*mapper.xml文件调用的另一个 *mapper.xml时 被调用的*mapper.xml返回类型一定得设置为 resultMap 而不能使用resultType<br />
+    					虽然resultType可以很方便的简写为实体类名&nbsp;  因为当你有一对多关系是 collection property="smallTypeBlogs"
+			resultMap="cn.bigwel.dao.ISmallTypeBlogDao.smallTypeBlogMap">/collection  collection只有 resultMap属性
+					<br/>
+    				<br/>
+    				<br/>
+					(c).按MyBatis官方文档  ，*mapper.xml文件的开头  mapper namespace="cn.bigwel.dao.ISmallTypeBlogDao" 命名空间一定是其Dao接口的完全限定名<br />
+					Dao接口CRUD操作的方法名 一定为 *mapper.xml 各增删改查标签的ID名   可以把*mapper.xml看做为Dao的实现类
+					<br/>
+    				<br/>
+    				<br/>
+					(d).一定要注意 *mapper.xml文件里面的配置result标签的column属性  ,这个值并不是数据库中表的字段名，而是通过SQL语句查询出来的结果集名，当多表查询是，该结果集名可能会重名<br/>
+					那么此时需给查询字段取别名 如：
+    			</li><img src="img/document/i.png"/>
+			
+        </ol>
+        <dt>2018.4.8 2:55</dt>
+    	<ol>
+    		<li>
+    			项目现在大体结构已经OK，接下来一周的工作重心放在数据的采集上面。
+    		</li>
+			
+        </ol>
+    </dd>
+</dl>
+
+
+<!-- 
+
+<dl>
+
+	<dt><span class="type">更改、修复记录：</span></dt>
+	
+	<dt>12月14、15号</dt>
+		<dd>
+			<ol>
+				<li>细节修改</li>
+			</ol>
+		</dd>
+	<dt>12月7号</dt>
+		<ol>
+			<li>更换积分页图</li>
+			
+		</ol>
+	<dt>12月6号</dt>
+		<dd>
+			<ol>
+				<li>修改购物车页面</li>
+				<li>注册页添加验证码</li>
+				<li>添加其他四种详情页的详细信息</li>
+				<li>各页面登录修复</li>
+				<li>积分页面内容增加，添加选择好友窗口</li>
+				
+			</ol>
+		</dd>
+	<dt>12月5号</dt>
+	<dd>
+		<ol>
+			<li>更换logo、修复各种bug</li>
+			<li>完成“礼品”框架与特效</li>	
+		</ol>
+	</dd>
+	<dt>12月4号</dt>
+	<dd>
+		<ol>
+			<li>增加其他4个物品详情</li>
+			<li>登录框增加“免费注册”与“忘记密码”</li>
+			<li>修复积分页面文本被遮盖bug</li>
+			<li>修改跟随菜单内容</li>
+			<li>修复注册页登录框大小异常、导航字体，修改主页大广告图</li>
+			<li>添加“积分”、“”抢购”、“更多“页面数字标签</li>
+		</ol>
+	</dd>
+	<dt>12月3号</dt>
+		<dd>
+			<ol>
+				<li>完成“更多”页面图文添加，增加导航，增加“地方特产”</li>
+				<li>添加小图标</li>
+			</ol>
+		</dd>
+	<dt>12月2号</dt>
+		<dd>
+			<ol>
+				<li>增加主页面跟随菜单</li>
+				<li>更换logo、楼层图片</li>
+				<li>修复z-index导致的搜索框与购物车不可点击错误。修改注册选项卡颜色。添加各页面logo</li>
+			</ol>
+		</dd>
+	 <dt>12月1号</dt>   
+		<dd>
+            <ol>
+				<li>更换滑动特效、添加抢购页面</li>
+				<li>更换5楼广告、修复中部广告移位</li>
+				<li>加入“更多”页面</li>
+				<li>添加<span class="keyword">立即购买</span>按钮</li>
+				<li>删除中部广告</li>
+			</ol>
+		</dd>
+     <dt>11月30号</dt>   
+		<dd>
+            <ol>
+                <li>完成积分页面</li>
+                <li>为各页面主导航、购物车添加链接</li> 
+                <li>商品详情页完成。改进页面，添加<span class="keyword">购买</span>与<span class="keyword">收藏</span>按钮，增添按钮特效</li>
+                <li>JQuery升级</li>
+                <li>改进各页面，更换模板自带信息</li>               
+            </ol>
+		</dd>
+
+	<dt>11月29号</dt>
+	<dd>
+    	<ol>
+        	<li><span class="keyword">头部“购物车”</span>指针悬浮时的颜色改为<span class="red">红色</span></li>
+			<li>增加各个页面“购物”链接跳转,购物源代码标签嵌套错误修复</li>
+      	</ol>  
+	
+
+</dl>
+<dl>
+	<dt><span class="type">计划修改与添加：</span></dt>
+    <dd>
+    	<ol>
+    		<li>更换大广告图片<sub>完成</sub></li>
+            <li>滑动框图片更换<sub>完成</sub></li>
+            <li>五楼广告图更换<sub>完成</sub></li>
+            <li>楼层图片更换<sub>完成</sub></li>
+            <li>删除无用源代码、样式。整理样式</li>
+            <li>登录框风格修改</li>
+            <li class="quxiao">三维图片展示</li>
+            <li>加入“更多”与抢“购页”面<sub>完成</sub></li>
+            <li>将滚动特效中代码在word中转换为小写<sub>完成</sub></li>
+            <li>添加跟随菜单效果<sub>完成</sub></li>
+			<li>更改购买页面字体，修改logo并为各页面添加logo<sub>完成</sub></li>
+			<li>添加小图标<sub>完成</sub></li>
+			<li>更换”more2“页面图片<sub>完成</sub></li>
+			<li>更好的跟随菜单</li>
+			<li>完善抢购页面<sub>完成</sub></li>
+			<li>积分兑换商品页面</li>
+			<li>主页面z-index顺序调整<sub>完成</sub></li>
+			<li>更换logo<sub>完成</sub></li>
+			<li>签到、积分换q币及签到规则<sub>完成</sub></li>
+			<li>统一登录界面<sub>完成</sub></li>
+			<li>重新裁剪积分页图片<sub>完成</sub></li>
+			<li class="quxiao">欢迎页面</</li>
+			<li>礼品页面</li>
+			<li><span class="red">分辨率1600版本</span><sub>完成</sub></li>
+			<li>--------------------最后修改--------------------</li>
+			<li>注册界面验证码通过手机发送<sub>完成</sub></li>
+			<li>楼层感加强<sub>完成</sub></li>
+			<li>商品详情图片增加，文字紧凑</li>
+			<li>购物车图标更换</li>
+			<li>首页链接图片位置更改<sub>完成</sub></li>
+			<li>添加礼品页</li>
+            <li>积分结算</li>
+			<li>积分签到规则<sub>完成</sub></li>
+			<li>积分赠送好友<sub>完成</sub></li>
+			<li>换页数字标签居中<sub>完成</sub></li>
+			<li>购物篮悬浮框位置修正<sub>完成</sub></li>
+		
+			
+        </ol>
+    </dd>
+</dl>
+
+
+
+ -->
+</body>
+</html>

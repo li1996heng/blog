@@ -1,0 +1,74 @@
+<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+
+        http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+
+	version="3.1" metadata-complete="true">
+
+	<welcome-file-list>
+    <welcome-file>loading.html</welcome-file>
+  </welcome-file-list>
+	
+
+	<!-- 修改servlet版本为3.1 -->
+
+	<!-- 配置spring框架的监听器 -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>classpath:spring/spring-*.xml</param-value>
+	</context-param>
+	<!--配置DispatcherServlet -->
+	<servlet>
+		<servlet-name>seckill-dispatcher</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<!-- 配置SpringMVC 需要配置的文件 spring-dao.xml，spring-service.xml,spring-web.xml 
+			Mybites -> spring -> springMvc -->
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring/spring-*.xml</param-value>
+		</init-param>
+		<load-on-startup>2</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>seckill-dispatcher</servlet-name>
+		<!--默认匹配所有请求 -->
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+	<!--随时获得request-->
+  <listener>
+    <listener-class>
+      org.springframework.web.context.request.RequestContextListener
+    </listener-class>
+  </listener>
+  
+  <!-- 配置数据缓存监听器 
+  <listener>
+  	<listener-class>cn.bigwel.listener.DataCacheListener</listener-class>
+  </listener>-->
+  
+      <!--去掉jsp页面的空白-->
+      <jsp-config>
+        <jsp-property-group>
+          <url-pattern>*.jsp</url-pattern>
+          <trim-directive-whitespaces>true</trim-directive-whitespaces>
+        </jsp-property-group>
+      </jsp-config>
+		<!-- <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/view/home/Error/404.jsp</location>
+      </error-page> -->
+      <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/view/home/Error/404.jsp</location>
+      </error-page>
+      <!-- <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/view/home/Error/404.jsp</location>
+      </error-page>
+ -->
+</web-app>
